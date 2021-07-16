@@ -1,4 +1,4 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateColornameDto } from './create-colorname.dto';
+import { CreateColornamesDto } from './create-colorname.dto';
 
-export class UpdateColornameDto extends PartialType(CreateColornameDto) {}
+export class UpdateColornamesDto extends PartialType(CreateColornamesDto) {}

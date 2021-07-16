@@ -1,15 +1,15 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ColornamesService } from './colornames.service';
-import { CreateColornameDto } from './dto/create-colorname.dto';
-import { UpdateColornameDto } from './dto/update-colorname.dto';
+import { CreateColornamesDto } from './dto/create-colorname.dto';
+import { UpdateColornamesDto } from './dto/update-colorname.dto';
 
 @Controller('colornames')
 export class ColornamesController {
   constructor(private readonly colornamesService: ColornamesService) {}
 
   @Post()
-  create(@Body() createColornameDto: CreateColornameDto) {
-    return this.colornamesService.create(createColornameDto);
+  create(@Body() createColornamesDto: CreateColornamesDto) {
+    return this.colornamesService.create(createColornamesDto);
   }
 
   @Get()
@@ -23,7 +23,7 @@ export class ColornamesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateColornameDto: UpdateColornameDto) {
+  update(@Param('id') id: string, @Body() updateColornameDto: UpdateColornamesDto) {
     return this.colornamesService.update(+id, updateColornameDto);
   }
 

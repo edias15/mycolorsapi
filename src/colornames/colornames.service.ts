@@ -1,22 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { CreateColornameDto } from './dto/create-colorname.dto';
-import { UpdateColornameDto } from './dto/update-colorname.dto';
-
+import { CreateColornamesDto } from './dto/create-colorname.dto';
+import { UpdateColornamesDto } from './dto/update-colorname.dto';
+import { PrismaService } from '../prisma/prisma.service';
 @Injectable()
 export class ColornamesService {
-  create(createColornameDto: CreateColornameDto) {
-    return 'This action adds a new colorname';
+  constructor(private prisma: PrismaService) { }
+  
+  create(createColornamesDto: CreateColornamesDto) {
+    return this.prisma.colornames.create({
+      data: { ...createColornamesDto }
+    })
   }
 
   findAll() {
-    return `This action returns all colornames`;
+    return this.prisma.colornames.findFirst();
   }
 
   findOne(id: number) {
     return `This action returns a #${id} colorname`;
   }
 
-  update(id: number, updateColornameDto: UpdateColornameDto) {
+  update(id: number, updateColornamesDto: UpdateColornamesDto) {
     return `This action updates a #${id} colorname`;
   }
 
