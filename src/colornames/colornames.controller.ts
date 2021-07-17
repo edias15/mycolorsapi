@@ -1,25 +1,30 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
 import { ColornamesService } from './colornames.service';
 import { CreateColornamesDto } from './dto/create-colorname.dto';
 import { UpdateColornamesDto } from './dto/update-colorname.dto';
-
 @Controller('colornames')
 export class ColornamesController {
   constructor(private readonly colornamesService: ColornamesService) {}
 
   @Post()
-  create(@Body() createColornamesDto: CreateColornamesDto) {
-    return this.colornamesService.create(createColornamesDto);
+  create(@Body() createColornamesDto: CreateColornamesDto, @Res() response: any) {
+    this.colornamesService.create(createColornamesDto)
+      .then(colornames => {
+        response.status(201).json(colornames)
+      })
+      .catch(err => {
+        response.status(500).json(err)
+      })
   }
 
+  @Get(':hex')
+  findOne(@Param('hex') hex: string) {
+    return this.colornamesService.findOne(hex);
+  }
+  
   @Get()
-  findAll() {
+  async findAll() {
     return this.colornamesService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.colornamesService.findOne(+id);
   }
 
   @Patch(':id')

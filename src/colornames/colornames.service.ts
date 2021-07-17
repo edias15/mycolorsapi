@@ -7,17 +7,20 @@ export class ColornamesService {
   constructor(private prisma: PrismaService) { }
   
   create(createColornamesDto: CreateColornamesDto) {
+    console.log('create ...', createColornamesDto)
     return this.prisma.colornames.create({
       data: { ...createColornamesDto }
     })
   }
 
   findAll() {
-    return this.prisma.colornames.findFirst();
+    return this.prisma.colornames.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} colorname`;
+  findOne(hex: string) {
+    return this.prisma.colornames.findUnique({
+      where: { hex }
+    });
   }
 
   update(id: number, updateColornamesDto: UpdateColornamesDto) {
