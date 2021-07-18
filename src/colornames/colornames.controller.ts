@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, Res } from '@nestjs/common';
+import { response } from 'express';
 import { ColornamesService } from './colornames.service';
 import { CreateColornamesDto } from './dto/create-colorname.dto';
 import { UpdateColornamesDto } from './dto/update-colorname.dto';
 @Controller('colornames')
 export class ColornamesController {
-  constructor(private readonly colornamesService: ColornamesService) {}
+  constructor(private readonly colornamesService: ColornamesService) { }
 
   @Post()
   create(@Body() createColornamesDto: CreateColornamesDto, @Res() response: any) {
@@ -32,8 +33,15 @@ export class ColornamesController {
     return this.colornamesService.update(+id, updateColornameDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.colornamesService.remove(+id);
+  @Delete(':hex')
+  remove(@Res() res: any, @Param('hex') hex: string) {
+    this.colornamesService.remove(hex)
+      .then((resp: any) => {
+        res.status(HttpStatus.OK).json(resp)
+      })
+      .catch(err => {
+        res.status(HttpStatus.FORBIDDEN).json(err)
+      })
   }
 }
+

@@ -20,14 +20,16 @@ export class ColornamesService {
   findOne(hex: string) {
     return this.prisma.colornames.findUnique({
       where: { hex }
-    });
+    })
   }
 
   update(id: number, updateColornamesDto: UpdateColornamesDto) {
     return `This action updates a #${id} colorname`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} colorname`;
+  remove(hex: string) {
+    return this.prisma.colornames.delete({
+      where: { hex }
+    })
   }
 }
